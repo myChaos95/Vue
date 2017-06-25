@@ -3,27 +3,79 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
+	<link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 	<style>
 		*{margin: 0; padding: 0;}
 		h2,h3{
 			text-align: center;
 		}
+		form{
+			width: 300px; margin: 30px auto; padding: 10px 20px; box-shadow: 1px 1px 1px 2px #ccc;
+		}
 	</style>
 </head>
 <body>
 	<div id="app">
-		<h2>{{title}}</h2>
+		<h2>{{title | strong('haha','test') }}</h2>
 		<h3>{{message}}</h3>
+		<hah v-for='yes in yess' :yes=yes></hah>
+		<span v-once>{{once}}</span>
+		<form role="form">
+			<div class="form-group">
+				<label for="message"> message </label>
+				<div class="input-group">
+					<i class="input-group-addon">@</i>
+					<input type="text" name="message" id="message" class="form-control" v-model='newMessage'>
+				</div>
+			</div>
+			<div class="form-group">
+				<button type="button" class="btn btn-warning btn-block" @click='changeMessage'>
+					<i class="	glyphicon glyphicon-refresh"></i> Commit
+				</button>
+			</div>
+		</form>
 	</div>
+
 </body>
 <script src='../../assets/vue.js'></script>
 <script>
+	Vue.component('hah',{
+		props: ['yes'],
+		template: '<p> this is hah {{yes.text}} </p>',
+	})
 	var app = new Vue({
 		el: '#app',
 		data: {
 			title: 'welcome to vue',
-			message: 'this is a traditional hello world test'
+			message: 'this is a traditional hello world test',
+			newMessage: '',
+			yess: [
+				{text: ' why not'},
+				{text: ' oh ! no '},
+				{text: ' my god'},
+			],
+			once: 'this is a test'
+		},
+		methods: {
+			changeMessage: function() {
+				this.message = this.newMessage;
+			}
+		},
+		filters: {
+			strong: function(value) {
+				var ag = Array.from(arguments).slice(1);
+				ag.map( ret => {
+					console.log(ret);
+				})
+				return value.toUpperCase();
+			}
 		}
+	})
+	var form = document.forms[0];
+	form.addEventListener('submit', e => {
+		e = e || window.event;
+		e.preventDefault;
+		e.returnValue = false;
 	})
 </script>
 </html>

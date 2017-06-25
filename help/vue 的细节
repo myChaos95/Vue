@@ -1,0 +1,9 @@
+1.  不要在vue 的实例属性或者回掉函数中使用 箭头函数;
+	因为 箭头函数绑定上下文， this 不是vue 的实例;
+	参考: https://segmentfault.com/q/1010000007225390
+		http://imweb.io/topic/5848d21b9be501ba17b10a99
+
+2. vue 实例代理data 属性， 这些属性是响应式的，新增加的data属性是非相应的
+	app.$data   app.$el    app.$options.method  .....   
+
+3. 简写 ( v-bind: -> :    v-on: -> @ )
