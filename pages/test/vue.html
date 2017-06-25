@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{margin: 0; padding: 0;}
+		h2,h3{
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<h2>{{title}}</h2>
+		<h3>{{message}}</h3>
+	</div>
+</body>
+<script src='../../assets/vue.js'></script>
+<script>
+	var app = new Vue({
+		el: '#app',
+		data: {
+			title: 'welcome to vue',
+			message: 'this is a traditional hello world test'
+		}
+	})
+</script>
+</html>
