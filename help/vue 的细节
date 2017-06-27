@@ -9,3 +9,20 @@
 3. 简写 ( v-bind: -> :    v-on: -> @ )
 
 4. 计算属性是基于他们的依赖进行缓存的, 只有相关依赖发生变化才会重新求值(意味着更高性能)
+
+5. v-if 和 v-show;  v-if 有更高的切换渲染开销, v-show 有更高的初始渲染开销v-for的优先级比v-if高;
+	即 v-if 会重复运行在每一个v-for 循环中;
+
+6. v-for 遍历对象时 (value, key, index); 是按照Object.keys 来进行遍历的
+	组件使用v-for时, 必须使用key -> v-bind: key
+
+7. @ 事件, $event 传递e (ag2);  . -> 事件修饰符 
+	@click.stop 阻止冒泡, .prevent 阻止默认事件 .capture 使用捕获模式
+	.self 只有在元素本身触发事件时触发 .once 只触发一次
+	按键修饰符 .number  .meta .alt .ctrl  .enter .tab .delete .esc .up .down ......
+	v-model .lazy 改为change时更新, .number , .trim .native 原生事件
+
+8. ul,ol,table 中限制了能被包裹的元素, 所以 使用is
+
+9. 组件之间的通信, 写在组件上的指令属于父级组件,子组件的指令应该写在模板内.
+	2个组件之间的通信, 采用空的Vue作为中间件

@@ -5,62 +5,61 @@
 	<title>Document</title>
 	<link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 	<style>
-		*{margin: 0; padding: 0;}
-		form {
-			width: 300px; margin: 20px auto; padding: 10px 20px; box-shadow: 1px 1px 1px 2px #ccc;
-		}
+		form { margin: 20px auto; width: 300px; }
 	</style>
 </head>
 <body>
-	<div id="app">
-		<form role='form'>
-			<div class="form-group">
-				<label for="question">question is :</label>
-				<input type="text" class="form-control" id="question" v-model='question'>
-			</div>
-			<div class="form-group">
-				<label for="answer">answer is :</label>
-				<input type="text" class="form-control" :disabled="answer" id="answer" v-model='answer'>
-			</div>
+	<app>
+		<h1 slot='header'> this is a test</h1>
+		<form role='form' @submit.prevent>
+			<child @trigger='getMess' name='chaos'></child>
+			<button class="btn btn-block btn-danger"> Commit </button>
 		</form>
-	</div>
+	</app>
 </body>
 <script src='../../assets/vue.js'></script>
 <script>
-	var app = new Vue({
-		el: '#app',
-		data: {
-			question: '',
-			answer: '',
-			taolu: [
-				{q: '', a: ''},
-				{q: 'hah', a: 'are you a fool ?'},
-				{q: 'no', a: 'question is wrong, you will be died'},
-				{q: 'god', a: 'what ? there is no god ,only me'}
-			]
-		},
-		methods: {
-			getAnswer: function() {
-				var question = this.question;
-				var p = new Promise( (resolve, reject) => {
-					this.taolu.map( obj => {
-						if(question == obj.q) {
-							resolve(obj.a)
-						}
-					})
-					reject('fuck you , this is not a question')
-				})
-				p.then( data => {
-					this.answer = data;
-				}).catch( err => {
-					this.answer = err;
-				});
+	var child = {
+		props: {
+			message: {
+				type: String,
+				default: 'this is child template'
+			},
+			name: {
+				type: String,
+				default: 'my name is chaos;'
 			}
 		},
-		watch: {
-			question: function  () {
-				this.answer = 'let me have a see';
-				this.getAnswer();
+		template: `
+			<div class='form-group'>
+				<label for='name'> name: </label>
+				<input class='form-control' @change.lazy='emit' id='name' v-model='msg' />
+			</div>
+		`,
+		data: function() {
+			return {
+				msg: this.name
+			}
+		},
+		methods: {
+			emit: function  () {
+				console.log('emit trigger');
+				this.$emit('trigger', this.message);
+			}
+		}
+	};
+	var app = {
+		template: `<div id='#app'><slot name='header'></slot><slot></slot></div>`,
+	}
+	var myApp = new Vue({
+		el: 'app',
+		components: {
+			app: app,
+			child: child,
+		}, 
+		methods: {
+			getMess: function(mess) {
+				console.log("i have recived child\'s message   " + mess)
 			}
 		}
 	})
